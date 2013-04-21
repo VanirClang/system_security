@@ -51,6 +51,7 @@ public:
         GETMTIME = IBinder::FIRST_CALL_TRANSACTION + 19,
         DUPLICATE = IBinder::FIRST_CALL_TRANSACTION + 20,
         IS_HARDWARE_BACKED = IBinder::FIRST_CALL_TRANSACTION + 21,
+        CLEAR_UID = IBinder::FIRST_CALL_TRANSACTION + 22,
     };
 
     DECLARE_META_INTERFACE(KeystoreService);
@@ -59,7 +60,8 @@ public:
 
     virtual int32_t get(const String16& name, uint8_t** item, size_t* itemLength) = 0;
 
-    virtual int32_t insert(const String16& name, const uint8_t* item, size_t itemLength, int uid) = 0;
+    virtual int32_t insert(const String16& name, const uint8_t* item, size_t itemLength, int uid,
+            int32_t flags) = 0;
 
     virtual int32_t del(const String16& name, int uid) = 0;
 
@@ -77,9 +79,10 @@ public:
 
     virtual int32_t zero() = 0;
 
-    virtual int32_t generate(const String16& name, int uid) = 0;
+    virtual int32_t generate(const String16& name, int uid, int32_t flags) = 0;
 
-    virtual int32_t import(const String16& name, const uint8_t* data, size_t length, int uid) = 0;
+    virtual int32_t import(const String16& name, const uint8_t* data, size_t length, int uid,
+            int32_t flags) = 0;
 
     virtual int32_t sign(const String16& name, const uint8_t* data, size_t length, uint8_t** out,
             size_t* outLength) = 0;
@@ -101,6 +104,8 @@ public:
             int32_t destUid) = 0;
 
     virtual int32_t is_hardware_backed() = 0;
+
+    virtual int32_t clear_uid(int64_t uid) = 0;
 };
 
 // ----------------------------------------------------------------------------
